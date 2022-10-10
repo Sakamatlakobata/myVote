@@ -1,0 +1,60 @@
+{% extends 'myvote/base_site.html' %}
+{% load static %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Create New Contact{% endblock title %}
+{% block page_heading %}Create New Contact{% endblock page_heading %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
+<form method="POST" action="{% url 'campaign_contacts_create' %}" >
+    {% csrf_token %}
+
+    <input type="button" value="Back" onclick="history.back()">&nbsp
+    {% if user.is_authenticated %}
+        <input type="submit" value="Save">&nbsp
+    {% endif %}
+    <br><br>
+
+    ZIP Code: <b>{{zipcode}}</b>&nbsp&nbsp
+    Street:   <b style="text-transform:capitalize;">{{street}}</b>&nbsp&nbsp
+    Number:   <b>{{number}}</b><br><br>
+
+    <table>
+        <tbody class="tbody_border">
+            <tr>
+                <td><label for  = "name">Name</label></td>
+                <td><input type = "text" name="name" autofocus></td>
+            </tr>
+            <tr>
+                <td><label for  = "cell">Cell</label></td>
+                <td><input type = "tell" name="cell"></td>
+            </tr>
+            <tr>
+                <td><label for  = "email">Email</label></td>
+                <td><input type = "email" name="email"></td>
+            </tr>
+            <tr>
+                <td><label for  = "date">Date</label></td>
+                <td><input type = "date" name="date"></td>
+            </tr>
+            <tr>
+                <td><label for = "campaign">Campaign</label></td>
+                <td>
+                    <select name="campaign" id="campaign">
+                        {% for campaign in campaigns %}
+                            <option value="{{campaign.id}}">{{campaign.name}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+        <input type = "text" name="zipcode" value="{{zipcode}}" hidden>
+        <input type = "text" name="street"  value="{{street}}"  hidden>
+        <input type = "text" name="number"  value="{{number}}"  hidden>
+    </table>
+</form>
+
+{% endblock content %}
+
+<!-- <input type="button" value="Back" onClick=window.location.href="{% url 'team_define_roles' %}"> -->
+

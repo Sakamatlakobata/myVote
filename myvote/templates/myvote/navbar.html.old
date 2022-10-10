@@ -1,0 +1,103 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+    <div class="container-fluid">
+      <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+      <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> -->
+        <!-- <span class="navbar-toggler-icon"></span> -->
+      <!-- </button> -->
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'post_list' %}">Home</a>
+          </li>
+
+          {% if user.is_authenticated %}
+            <li  class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'post_create' %}">Add Post</a>
+            </li>
+            <!-- <li class="nav-item"> -->
+              <!-- <a class="nav-link" href="{% url 'logout' %}">Logout</a>  -->
+              <!-- using django.contrib.auth.urls without urls.py -->
+            <!-- </li> -->
+
+<!-- categories dropdown -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Categories
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown"> 
+                <li><a class="dropdown-item" href="{% url 'category_create' %}">Add</a></li>
+                <li><a class="dropdown-item" href="{% url 'category_list' %}">List</a></li>
+                {% if category_list %}
+                  <li><hr class="dropdown-divider"></li>
+                  {% for category in category_list %}
+                    <li><a class="dropdown-item" href="{% url 'category_posts' category.name|slugify %}">{{ category.name }}</a></li>
+                  {% endfor %}
+                {% endif %}
+              </ul>
+            </li>
+
+          {% else %}
+            <!-- <li class="nav-item"> -->
+              <!-- <a class="nav-link" href="{% url 'users_login' %}">Login</a>  -->
+            <!-- </li> -->
+          {% endif %}
+
+<!-- users dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Users
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {% if user.is_authenticated %}
+                <li>&nbsp User {{request.user.username}}</a></li>
+              {% else %}
+                <li>&nbsp Not logged in</li>
+              {% endif %}
+              <li><hr class="dropdown-divider"></li>
+              <li><a  class="dropdown-item" href="{% url 'users_register' %}">Register</a></li>
+              <li><a  class="dropdown-item" href="{% url 'users_login' %}">Login</a></li>
+              {% if user.is_authenticated %}
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li> <!-- autho system url settings.LOGOUT_REDIRECT_URL -->
+                <li><a class="dropdown-item" href="{% url 'users_edit' %}">Edit Profile</a></li>
+                {% if user.userextension.id %}
+                  <li><a class="dropdown-item" href="{% url 'users_page_edit' user.userextension.id %}">Edit Profile Page</a></li>
+                {% else %}
+                  <li>Create Profile Page</li>
+                {% endif %}
+                <li><a class="dropdown-item" href="{% url 'users_password' %}">Change Password</a></li>
+              {% endif %}
+              <li><hr class="dropdown-divider"></li>
+              <li><a  class="dropdown-item" href="{% url 'district_zipcode' %}">Voting district</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Messages
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {% if messages %}
+                {% for message in messages %}
+                  <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>&nbsp {{ message }}</li>
+                {% endfor %}
+              {% else %}
+                <li>&nbsp No messages</li>
+              {% endif %}
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          </li>
+
+        </ul>
+<!--
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+-->
+      </div>
+    </div>
+  </nav>

@@ -1,0 +1,11 @@
+
+.thead_border, .tbody_border, .form_border {
+    border: 2px solid lightgrey;
+}
+
+.textbox {
+    background: rgba(173, 216, 230, 0.5);
+    border-style: inset;
+    color:black;
+    padding:8px;
+}

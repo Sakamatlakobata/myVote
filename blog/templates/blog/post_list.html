@@ -1,0 +1,48 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Posts List{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Posts List
+    </div>
+{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <input type="button" value="Back"       onclick="history.back()">&nbsp
+    <input type="button" value="Add"        onClick=window.location.href="{% url 'post_create'   %}">&nbsp
+    <input type="button" value="Categories" onClick=window.location.href="{% url 'category_list' %}">
+{% endif %}
+</br></br>
+<table>
+    <thead><tr>
+        <th><a href="{% url 'post_list' %}?column=title">Title</a></th>
+        <th><a href="{% url 'post_list' %}?column=category">Category</a></th>
+        <th><a href="{% url 'post_list' %}?column=bill">Bill</a></th>
+        <th><a href="{% url 'post_list' %}?column=event">Event</a></th>
+        <th><a href="{% url 'post_list' %}?column=date">Date</a></th>
+        <th><a href="{% url 'post_list' %}?column=author">Author</a></th>
+        <th><a href="{% url 'post_list' %}?column=excerpt">Excerpt</a></th>
+    </tr></thead>
+    <tbody>
+    {% for post in post_list %}
+    <tr>
+        <td><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></td>
+        <td>{{ post.category }}</td>
+        <td><a href="{% url 'polls_list' %}">{{ post.bill.number }}</a></td>
+        <td><a href="{% url 'event_list' %}">{{ post.event.name }}</a></td>
+        <td>{{ post.date }}</td>
+        <td>{{ post.author.first_name }} {{ post.author.last_name }}</td>
+        <td>{{ post.excerpt }}</td>
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock content %}
+
+<!-- <td><a href="{% url 'events:event_detail' post.event.pk %}">{{ post.event.name }} {{ post.event.pk }}</a></td> -->
+
+<!-- <th><a href="{% url 'post_list' %}?column=tag">Tag</a></th> -->
+<!-- <td>{{ post.tag }}</td> -->

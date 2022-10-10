@@ -1,0 +1,84 @@
+<!--
+Search for a bill
+https://www.congress.gov/search?q={"source":"legislation","search":"H.R. 600"}
+https://www.congress.gov/search?q={"search":"H.R. 600"}
+
+List of bills links
+yyyy-MM-dd'T'HH:mm:ss'Z'
+https://api.govinfo.gov/collections/BILLS/2022-04-02T00:00:00Z/2022-04-02T23:59:59Z/?offset=0&pageSize=100&api_key=ToR9oqHKnmbxStu8LLGoaNrfIaVBOyLpfKJCX1ba
+"packageLink":"https://api.govinfo.gov/packages/BILLS-117hr7284ih/summary"
+
+Bill title and detail link
+https://api.govinfo.gov/packages/BILLS-117hr7284ih/summary?api_key=ToR9oqHKnmbxStu8LLGoaNrfIaVBOyLpfKJCX1ba
+"detailsLink":"https://www.govinfo.gov/app/details/BILLS-117hr7284ih"
+-->
+
+{% extends "admin/base_site.html" %}
+
+{% block title %}Electoral District{% endblock %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock %}
+
+{% block breadcrumbs %} <!-- see base/app_index.html -->
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Electoral District
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <!-- <h1 id="description" onmouseover="mouseOver()" onmouseout="mouseOut()">Electoral district</h1> -->
+    <input type="button" value="Back"   onclick="history.back()">&nbsp
+    <input type="button" value="Blog"   onClick=window.location.href="{% url 'post_list'  %}">&nbsp
+    <input type="button" value="Polls"  onClick=window.location.href="{% url 'polls_list' %}">&nbsp
+    <input type="button" value="Events" onClick=window.location.href="{% url 'event_list' %}">
+    
+    <table>
+        <tr><td> First name:      </td>
+            <td> {{ first_name }} </td></tr>
+        <tr><td> Last name:       </td>
+            <td> {{ last_name }}  </td></tr>
+        <tr><td> Phone:           </td>
+            <td> {{ phone }}      </td></tr>
+        <tr><td> District:        </td>
+            <td> {{ district }}   </td></tr>
+        <!-- <tr><td> ZIPcode:         </td> -->
+        <!--     <td> {{ ZIPcode }}    </td></tr> -->
+        <tr><td> Member ID:       </td>
+            <td> <a href={{ congress_url }} target="_blank"> {{ congress_id }} </a> </td> </tr>
+            <!-- <td> <a href=https://www.congress.gov/ target="_blank"> Search Congress </a> </td></tr> -->
+        <tr><td> GovTrack ID:     </td>
+            <td> <a href={{ govtrack_url }} target="_blank"> {{ govtrack_id }} </a> </td> </tr>
+            <!-- <td> <a href=https://www.govtrack.us/ target="_blank"> Tracking the United States Congress </a> </td></tr> -->
+        <tr><td> Open Secrets ID: </td>
+            <td> <a href={{ opensecrets_url }} target="_blank"> {{ opensecrets_id }} </a> </td> </tr>
+            <!-- <td> <a href=https://www.opensecrets.org/ target="_blank"> Open Secrets, Follow the money </a> </td></tr> -->
+        <tr><td> Vote Smart ID:   </td>
+            <td> <a href={{ votesmart_url }} target="_blank"> {{ votesmart_id }} </a> </td> </tr>
+            <!-- <td> <a href=https://justfacts.votesmart.org/ target="_blank"> Vote Smart, Facts Matter </a> </td></tr> -->
+        <tr><td> Vote View ID:    </td>
+            <td> <a href={{ icpsr_url }} target="_blank"> {{ icpsr_id }} </a> </td> </tr>
+            <!-- <td> <a href=https://voteview.com/ target="_blank"> Vote View </a> </td></tr> -->
+        <tr><td> ZIPcode:</td>
+            <td> <a href="https://www.unitedstateszipcodes.org/{{ ZIPcode }}" target="_blank"> {{ ZIPcode }} </a> </td> </tr>
+    </table><br>
+
+    <!-- <script>function mouseOver(){window.alert("{{ description }}");}</script> -->
+
+{% endblock %}
+
+<!-- <style type="text/css">.govinfo-search__container #govinfo-external-search{width:250px;border:1px solid gray;margin-right:10px;margin-bottom:5px;padding-left:10px}.govinfo-search__container{display:flex;align-items:center;background-color:#f5f5f5;padding:10px;border:1px solid #c4c4c4}.govinfo-search__container label{float:left;font-size:14px;width:100%}.govinfo-search__container #search-submit{background-color:#f26531;outline:none;border:none;color:white;padding:3px 10px 1px 10px;text-transform:uppercase;font-size:14px}</style><form onsubmit="externalFormAction();"><div class="govinfo-search__container"> <img alt="blue govinfo logo" src="https://www.govinfo.gov/media/govinfo_eagle_homepage.png" style="float:left;margin-right:10px; height: 70px;"><div role="search" class="govinfo-search__box"> <label for="govinfo-external-search">Discover U.S. Government Information:</label><input id="govinfo-external-search" placeholder="Search govinfo.gov" type="text"><button id="search-submit" type="submit">Search</button></div></div></form> <script type="text/javascript">function externalFormAction(){var govinfoParam=document.getElementById('govinfo-external-search').value;event.preventDefault();window.open('https://www.govinfo.gov/app/search/{"query":"'+govinfoParam+'","offset":0}','_blank');}</script> -->
+
+
+<!-- 
+{% for key, value in jsonResponse.items %}
+    {% if key != 'input' %}
+        {{ key }} : {{ value }} <br>
+    {% endif %}
+{% endfor %} 
+-->
+
+        <!-- <tr> 
+            <td> Thomas ID:      </td>
+            <td> {{ thomas_id }} </td>
+            <td> Thomas (Library of Congress) </td>
+        </tr> -->

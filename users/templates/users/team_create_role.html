@@ -1,0 +1,29 @@
+{% extends 'myvote/base_site.html' %}
+{% load static %}
+
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Create Roles{% endblock title %}
+{% block page_heading %}Create Roles{% endblock page_heading %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <div class="form-group">
+        <form method="POST" action="{% url 'team_create_role' %}">
+            {% csrf_token %}
+            <label for="role">New Role: </label>
+            <input type="text" id="role" name="role" autofocus /><br><br>
+            <input type="button" value="Back" onClick=window.location.href="{% url 'team_define_roles' %}">&nbsp
+            <input type="submit" value="Save">
+        </form>
+    </div>
+    {% else %}
+        <h2>Please login to create post</h2>
+    {% endif %}
+
+{% endblock content %}
+
+<!--
+<table>
+    {{ form.as_table }}
+</table><br>
+-->

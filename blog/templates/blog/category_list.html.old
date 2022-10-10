@@ -1,0 +1,25 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Category List{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Category List
+    </div>
+{% endblock %}
+
+{% block content %}
+
+<h1>Category List</h1>
+
+<ul>
+{% for category in category_list %}
+    <li>
+        {{ category.name }}
+        <a href="{% url 'category_delete' category.name %}"><small>delete</small></a>
+    </li>
+{% endfor %}
+</ul>
+<a class='btn btn-secondary' href="{% url 'post_list' %}">Back</a>
+
+{% endblock content %}

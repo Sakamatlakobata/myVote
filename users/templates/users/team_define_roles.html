@@ -1,0 +1,36 @@
+{% extends 'myvote/base_site.html' %}
+{% load static %}
+
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Define Roles{% endblock title %}
+{% block page_heading %}Define Roles{% endblock page_heading %}
+
+{% block content %}
+    <div class="form-group">
+        <form method="POST" action="{% url 'team_define_roles' %}">
+            {% csrf_token %}
+            <input type="button" value="Back" onclick="history.back()">&nbsp
+            {% if user.is_authenticated %}
+                <input type="submit" value="Delete">&nbsp
+                <input type="button" value="Add" onClick=window.location.href="{% url 'team_create_role' %}">
+            {% endif %}
+            <table>
+                {% for role in role_list %}
+                        <tr>
+                        {% if user.is_authenticated and user == role.owner %}
+                            <td><input type="checkbox" name="delete" value="{{role.id}}"></td>
+                        {% else %}
+                            <td>&nbsp</td>
+                        {% endif %}
+                        <td>{{role.name}}</td>
+                        <td>{{role.owner}}</td>
+                    </tr>
+                {% endfor %}
+            </table><br>
+
+        </form>
+    </div>
+
+{% endblock content %}
+
+<!-- <input type="button" value="Back" onClick=window.location.href="{% url 'post_list' %}"> -->

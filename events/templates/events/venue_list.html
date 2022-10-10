@@ -1,0 +1,57 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Venue List{% endblock title %}
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Venue List
+    </div>
+{% endblock %}
+
+{% block content %}
+
+<div class="form-group">
+    <form method="POST" action="{% url 'venue_list' %}">
+        {% csrf_token %}
+        <table>
+
+        <!-- buttons -->
+        {% if user.is_authenticated %}
+            <input type="button" value="Back" onclick="history.back()">&nbsp
+            <input type="button" value="Add" onClick=window.location.href="{% url 'venue_create' %}">&nbsp
+            <input type="submit" value="Delete"><br><br>
+        {% endif %}
+
+        <!-- list of venues -->
+        <thead>
+        <tr>
+            <th>Delete</th>
+            <th><a href="{% url 'venue_list' %}?column=name">Venue</a></th>
+            <th><a href="{% url 'venue_list' %}?column=contact">Contact</a></th>
+            <th><a href="{% url 'venue_list' %}?column=zipcode">ZIPcode</a></th>
+            <th><a href="{% url 'venue_list' %}?column=district">District</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for venue in venue_list %}
+            <tr>
+                {% if user.is_authenticated and venue.contact.id == user.id %}
+                    <td><input type="checkbox" name="delete" value="{{venue.id}}"></td>
+                {% else %}
+                    <td>&nbsp</td>
+                {% endif %}
+                <td><a href="{% url 'venue_update' venue.pk %}">{{ venue.name }}</a></td>
+                <td><a href="{% url 'users_detail' venue.contact.pk %}">{{ venue.contact.first_name }} {{ venue.contact.last_name }}</a></td>
+                {% if venue.zipcode != null %}
+                    <td>{{ venue.zipcode }}</td>
+                    <td>{{ venue.district }}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    </form>
+</div>
+{% endblock content %}
+
+<!-- <small>{{ post.body | slice:200 | safe }}</small><br> -->
+<!-- <td><a href="{% url 'venue_edit' venue.pk %}">{{ venue.name }}</a></td> -->

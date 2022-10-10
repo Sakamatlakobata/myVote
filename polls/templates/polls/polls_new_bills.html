@@ -1,0 +1,46 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Add Bills{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Add Bills
+    </div>
+{% endblock %}
+
+{% block content %}
+{% if new_bills_list %}
+<form method="POST" action="{% url 'polls_new_bills' %}">
+    {% csrf_token %}
+    <br><input type="button" value="Back" onclick="history.back()">&nbsp
+    {% if user.is_authenticated %}
+        <input type="submit" value="Add">
+    {% endif %}
+    <table>
+        {% for bill in new_bills_list %}
+        <tr>
+            {% if user.is_authenticated %}
+                <td><input type="checkbox" name="add" value="{{bill.bill_id}}"></td>
+            {% endif %}
+            <td><a href="{{bill.congressdotgov_url}}" target="_blank">{{bill.number}}</a></td>
+            <td>{{bill.introduced_date}}</td>
+            <td><a href="{{bill.govtrack_url}}" target="_blank">{{bill.short_title|truncatechars:100}}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+{% else %}
+    No bills available
+{% endif %} <!-- latest_bills_list -->
+
+{% endblock content %}
+
+<!-- <input type="button" value="Add Bill" onclick="location.href='https://www.congress.gov/most-viewed-bills';">&nbsp -->
+
+<!--
+    {% if user.is_authenticated %}
+        <td><small><a href="{% url 'polls_vote' bill.id %}">Cast vote <i class="bi bi-box-seam"></i></a></small></td>
+    {% endif %}
+    <td><small><a href="{% url 'polls_result' bill.id %}">Vote count <i class="bi bi-calculator-fill"></i></a></small></td>
+    <td><small><a href="{{ bill.url }}" target=”_blank”>Bill details <i class="bi bi-folder2-open"></i></a></small></td>
+-->

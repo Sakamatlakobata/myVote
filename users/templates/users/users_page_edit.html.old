@@ -1,0 +1,37 @@
+{% extends 'admin/base_site.html' %}
+{% load static %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Edit User Profile Page{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Edit User Profile Page
+    </div>
+{% endblock %}
+
+{% block content %}
+<h1>Edit User Profile Page</h1>
+
+<!-- user.id not necessarily equal to userextension.id -->
+
+<!-- user.id {{user.id}} <br> -->
+<!-- userextension.id {{userextension.id}} <br> -->
+<!-- userextension.user.id {{userextension.user.id}} <br> -->
+
+{% if user.is_authenticated %}
+<div class="form-group">
+    <form method="POST" action="{% url 'post_create' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            {{ form.media }}  <!-- for RichTextField editor in body field -->
+            {{ form.as_table }}
+        </table><br>
+        <a href="{% url 'post_list' %}" class="btn btn-secondary">Back</a>
+        <button class="btn btn-secondary">Save</button>
+    </form>
+</div>
+{% else %}
+<h2>Please login to edit</h2>
+{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,26 @@
+<!-- modify admin pages -->
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+Howzit from ./templates/district/base_site.html
+
+{% block stylesheet %}{% static 'bs/css/bootstrap.css' %}{% endblock %}
+
+{% block title %} {{ title }} | {{ site_title|default:_('Site admin') }} {% endblock %}
+
+{% block branding %}
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('myVote') }}</a></h1>
+{% endblock %}
+
+<!--
+<h1 id="site-name">myVote</h1>
+<h1 id="site-header">myVote</h1>
+<h1 id="site-title">myVote</h1>
+<h1 id="index-title">myVote</h1>
+<h1 id="site_name">myVote</h1>
+<h1 id="site_header">myVote</h1>
+<h1 id="site_title">myVote</h1>
+<h1 id="index_title">myVote</h1>
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('myVote') }}</a></h1>
+-->

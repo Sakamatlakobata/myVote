@@ -1,0 +1,26 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}My Voting Record{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        My Voting Record
+    </div>
+{% endblock %}
+
+{% block content %}
+{% if polls_list %}
+    <table>
+        {% for poll in polls_list %}
+        <tr>
+            <td>{{poll.bill.type}}{{poll.bill.number}} - {{poll.bill.text|slice:":32"}}</td>
+            <td><a href="{% url 'polls_vote' poll.bill.id %}">{{poll.vote}}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    No voting record
+{% endif %} 
+<br><input type="button" value="Back" onClick=window.location.href="{% url 'polls_list' %}">&nbsp
+
+{% endblock content %}

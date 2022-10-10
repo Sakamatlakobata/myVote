@@ -1,0 +1,31 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Create Category{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'post_list' %}">&nbsp&nbspMenu</a> &rsaquo;
+        <a href="{% url 'category_list' %}">Categories</a> &rsaquo;
+        <a>Add</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% if category_posts %}
+    <h2>Category posts for: {{ category_id }} - {{ category }}<br></h2>
+    <table>
+        {% for post in category_posts %}
+            <div class="container">
+                    <tr>
+                        <td><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></td>
+                        <td>by</td>
+                        <td>{{ post.author.first_name }} {{ post.author.last_name }}</td>
+                    </tr>
+            </div>
+        {% endfor %}
+    </table>
+    {% else %}
+        <h3>Sorry, there are no posts for category: {{ category }}</h3>
+    {% endif %}
+    <br/><a href="{% url 'post_list' %}" class="btn btn-secondary">Back</a>
+{% endblock content %}

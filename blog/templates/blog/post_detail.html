@@ -1,0 +1,144 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Post Details{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Posts Details
+    </div>
+{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<table style="max-width:500px;">
+<thead><tr><td colspan="4"><h2>
+    {{ post.title }}
+    <small>By
+        {{ post.author.first_name }} 
+        {{ post.author.last_name }} on 
+        {{ post.date }}
+    </small>
+    <tr><td colspan="4">{{ post.excerpt }}</td></tr>
+    <tr class="blank_row"><td colspan="4"></td></tr>
+</h2></td></tr></thead>
+
+<thead><tr>
+    <th>Category</th>
+    <th>Tag</th>
+    <th>Bill</th>
+    <th>Event</th>
+</tr></thead>
+<tbody><tr>
+    <td>{{ post.category }}</td>
+    <td>{{ post.tag }}</td>
+    <td>{{ post.bill.type }} {{ post.bill.number }}</td>
+    <td>{{ post.event }}</td>
+</tr>
+<tr style="display: none;"><td colspan="4">&nbsp</td></tr> 
+<tr class="blank_row"><td colspan="4"></td></tr>
+<tr><td colspan="4">{{ post.body | safe }}</td></tr>
+
+<!-- buttons -->
+<tr class="blank_row"><td colspan="4"></td></tr>
+<tr><td colspan="4">
+<form action="{% url 'like_post' post.id %}", method="POST">
+{% csrf_token %}
+    <input type="button" value="Back" onClick=window.location.href="{% url 'post_list' %}">
+    {% if user.is_authenticated %}
+        {% if post.author.id == user.id %}
+            <input type="button" value="Edit"   onClick=window.location.href="{% url 'post_update' post.id %}">
+            <input type="button" value="Delete" onClick=window.location.href="{% url 'post_delete' post.id %}">
+        {% endif %}
+
+        <!-- like button to like post -->
+            {% if liked %}
+                <input type="submit" value="{{ total_likes }} likes" style="background-color:lightgrey; color:#5499C7; font-weight: bold;">
+                <!-- <button type="submit", class="btn btn-danger btn-sm">UnLike</button> -->
+            {% else %}
+                <input type="submit" value="{{ total_likes }} likes">
+                <!-- <input type="submit" class="small" value="Like" style="height:10px;width:20px; font-size:10px; text-align:center;"> -->
+                <!-- <button type="submit", class="btn btn-primary btn-sm">Like</button> -->
+            {% endif %}
+    </td>
+    {% endif %}
+</form>
+</tr>
+
+<!-- comments -->
+<tr>
+    <td><h2><a href="{% url 'comment_create' post.pk %}">Comments</a></h2></td>
+    <td colspan="3"><a href="{% url 'comment_create' post.pk %}"><h5><i><small>Add comment</small></i></h5></a></td>
+</tr>
+{% if not post.comments.all %}
+    <tr><td colspan="4">No comments yet</td></tr>
+{% else %}
+    {% for comment in post.comments.all %}
+        <tr><td colspan="3"><strong>{{ comment.author.first_name }} {{ comment.author.last_name }} - {{ comment.date }}</strong></td>
+        {% if comment.author.id == user.id %}
+            <td align="right"><input type="button" value="Delete" onClick=window.location.href="{% url 'comment_delete' comment.id post.id %}" style="margin: 0px; padding: 4px; font-size: 12px;"></td>
+        {% else %}
+            <td>&nbsp</td>
+        {% endif %}
+        </tr>
+        <tr><td colspan="4">{{ comment.body | safe }}</td></tr>
+    {% endfor %}
+{% endif %}
+</tbody>
+</table>
+
+{% endblock content %}
+
+<!--
+{% if comment.author.id == user.id %}
+<tr><td colspan="4"><strong><a href="{% url 'comment_create' post.pk %}?comment_id={{comment.id}}">{{ comment.author.first_name }} {{ comment.author.last_name }} - {{ comment.date }}</a></strong></td></tr>
+{% else %}
+<tr><td colspan="4"><strong>{{ comment.author.first_name }} {{ comment.author.last_name }} - {{ comment.date }}</strong></td></tr>
+{% endif %}
+-->
+
+<!-- username  {{ post.author.username }}<br> -->
+<!-- zipcode   {{ post.author.userextension.zipcode }}<br><br> -->
+
+
+<!-- bio image avatar of author -->
+<!--
+{% if post.author.userextension.pk %}
+<div class="card mb-3" style="max-width: 540px;">
+<div class="row g-0">
+
+<!-- <input type="button" value="Back" onClick=window.location.href="{% url 'post_list' %}"> -->
+
+<!--
+<div class="col-md-4">
+        {% if post.author.userextension.image %}
+            <a href="{% url "users_profile" post.author.userextension.pk %}">
+                <img src="{{ post.author.userextension.image.url }}" class="img-fluid rounded-start" alt="Profile Image">
+            </a>
+        {% else %}
+            <img src="{% static 'images/avatar.jpg' %}" class="img-fluid rounded-start" alt="Profile Image">
+        {% endif %}
+    </div>
+
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">Bio of <a href="{% url "users_profile" post.author.userextension.pk %}">{{ post.author.first_name }} {{ post.author.last_name }}</a></h5>
+          <p class="small text-muted"> 
+            {% if post.author.userextension.website %}
+                <a href="{{post.author.userextension.website}}"  target=”_blank">Website</a> 
+            {% endif %}
+            {% if post.author.userextension.website %}
+                | <a href="{{post.author.userextension.facebook}}" target=”_blank">Facebook</a> 
+            {% endif %}
+            {% if post.author.userextension.twitter %}
+                | <a href="{{post.author.userextension.twitter}}"  target=”_blank">Twitter</a> 
+            {% endif %}
+            </p>
+          <p class="card-text">{{ post.author.userextension.bio | slice:":500" | safe }}</p>
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+      </div>
+    </div>
+</div>
+{% endif %} <!-- post.author.userextension.pk -->
+-->

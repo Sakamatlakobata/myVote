@@ -1,0 +1,72 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Edit Profile{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Edit Profile
+    </div>
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <td><label for="username"><b>Username : </b></label></td>
+            <td><input type="text" id="username" name="username" value={{user.username}}></td>
+        </tr>
+        <tr>
+            <td><label for="first_name"><b>First Name : </b></label></td>
+            <td><input type="text" id="first_name" name="first_name" value={{user.first_name}}></td>
+        </tr>
+        <tr>
+            <td><label for="last_name"><b>Last Name : </b></label></td>
+            <td><input type="text" id="last_name" name="last_name" value={{user.last_name}}></td>
+        </tr>
+        <tr>
+            <td><label for="email"><b>Email : </b></label></td>
+            <td><input type="email" id="email" name="email" value={{user.email}}></td>
+        </tr>
+        <tr>
+            <td><label for="cell"><b>Cell Number : </b></label></td>
+            <td><input type="text" id="cell" name="cell" value={{userextension.cell}}></td>
+        </tr>
+        <tr>
+            <td><label for="zipcode"><b>ZIP Code : </b></label></td>
+            <td><input type="text" id="zipcode" name="zipcode" value={{userextension.zipcode}}></td>
+        </tr>
+        <tr>
+            <td><output><b>District : </b></output></td>
+            <td><output>{{userextension.district}}</output></td>
+        </tr>
+        <tr>
+            <td><output><b>Last Login : </b></output></td>
+            <td><output>{{user.last_login}}</output></td>
+        </tr>
+        <tr>
+            <td><output><b>Date Joined : </b></output></td>
+            <td><output>{{user.date_joined}}</output></td>
+        </tr>
+    </table><br>
+    <input type="button" value="Back" onClick=window.location.href="{% url 'event_list' %}">
+    <input type="submit" value="Save">
+</form>
+{% endblock content %}
+
+<!--
+<div class="form-group">
+    <form method="POST" action="#">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table><br>
+        <input type="submit" value="Save">
+    </form>
+</div>
+
+                <input type="submit" value="Save">
+                <input type="button" value="Back" onClick=window.location.href="{% url 'event_list' %}">
+
+-->
+

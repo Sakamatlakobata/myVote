@@ -1,0 +1,38 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Vote Count : {{ bill_type }}{{ bill_number }} - {{ bill_text }}{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Vote Count : {{ bill_number }} - {{ bill_text | slice:"0:50"}}
+    </div>
+{% endblock %}
+
+{% block error_message %}{{ error_message }}{% endblock error_message %}
+
+{% block content %}
+    <div class="container">
+        {% if votes %}
+            <table>
+                {% for choice, count in votes.items %}
+                    <tr>
+                        <td>{{ choice }} &nbsp </td>
+                        <td>{{ count }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            No votes available
+        {% endif %} <!-- latest_bills_list -->
+        <br><input type="button" value="Back" onClick=window.location.href="{% url 'polls_list' %}">&nbsp
+        <!-- <br><a href="{% url 'polls_list' %}" class="btn btn-secondary">Back</a> -->
+    </div>
+{% endblock content %}
+
+<!--
+    <ul>
+        {% for poll in bill.polls.all %}
+            <li>{{ poll.vote }} - {{ poll.count }}</li>
+        {% endfor %}
+    </ul>
+-->

@@ -1,0 +1,30 @@
+{% extends 'myvote/base_site.html' %}
+{% load static %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Create Campaigns{% endblock title %}
+{% block page_heading %}Create Campaigns{% endblock page_heading %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
+    {% if user.is_authenticated %}
+    <div class="form-group">
+        <form method="POST" action="{% url 'campaign_create' %}">
+            {% csrf_token %}
+            <label for="campaign">New Campaign: </label>
+            <input type="text" id="campaign" name="campaign" autofocus /><br><br>
+            <input type="button" value="Back" onClick=window.location.href="{% url 'campaign_define' %}">&nbsp
+            <input type="submit" value="Save">
+        </form>
+    </div>
+    {% else %}
+        <h2>Please login to create campaign</h2>
+    {% endif %}
+
+{% endblock content %}
+
+<!--
+<table>
+    {{ form.as_table }}
+</table><br>
+-->

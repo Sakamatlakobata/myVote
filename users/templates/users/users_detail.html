@@ -1,0 +1,56 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Edit Profile{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Edit Profile
+    </div>
+{% endblock %}
+
+{% block content %}
+<form>
+    {% csrf_token %}
+    <table>
+        <tr>
+            <td><output><b>Username : </b></output></td>
+            <td><output>{{user.username}}</output></td>
+        </tr>
+        <tr>
+            <td><output><b>First Name : </b></output></td>
+            <td><output>{{user.first_name}}</output></td>
+        </tr>
+        <tr>
+            <td><output><b>Last Name : </b></output></td>
+            <td><output>{{user.last_name}}</output></td>
+        </tr>
+        <tr>
+            <td><output><b>Email : </b></output></td>
+            <td><output>{{user.email}}</output></td>
+        </tr>
+        <tr>
+            <td><output><b>Cell Number : </b></output></td>
+            <td><output>{{userextension.cell}}</output></td>
+        </tr>
+        <tr>
+            <td><output><b>ZIP Code : </b></output></td>
+            <td><output>{{userextension.zipcode}}</output></td>
+        </tr>
+        <tr>
+            <td><output><b>District : </b></output></td>
+            <td><output>{{userextension.district}}</output></td>
+        </tr>
+        <tr>
+            <td><output><b>Last Login : </b></output></td>
+            <td><output>{{user.last_login}}</output></td>
+        </tr>
+        <tr>
+            <td><output><b>Date Joined : </b></output></td>
+            <td><output>{{user.date_joined}}</output></td>
+        </tr>
+    </table><br>
+    <input type=button value="Back" onClick="javascript:history.go(-1);">
+</form>
+{% endblock content %}
+
+<!-- <input type="button" value="Back" onClick=window.location.href="{% url 'event_list' %}"> -->

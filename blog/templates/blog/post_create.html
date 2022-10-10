@@ -1,0 +1,29 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Create Post{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Create Post
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+    <div class="form-group">
+        <form method="POST" action="{% url 'post_create' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                {{ form.media }}  <!-- for RichTextField editor in body field -->
+                {{ form.as_table }}
+            </table><br>
+            <input type="button" value="Back" onClick=window.location.href="{% url 'post_list' %}">
+            <input type="submit" value="Save">
+        </form>
+    </div>
+    {% else %}
+        <h2>Please login to create post</h2>
+    {% endif %}
+
+{% endblock content %}

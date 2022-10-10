@@ -1,0 +1,173 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.navbar {
+  overflow: hidden;
+/*  background-color: #333; */
+/*  background-color: inherit; */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 7px 8px;
+  text-decoration: none;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  cursor: pointer;
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 7px 8px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
+  background-color:#80AAC6;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color:#80AAC6;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.show {
+  display: block;
+}
+</style>
+
+
+<div class="navbar">
+
+<!-- District -->
+<a href="{% url 'district_zipcode' %}">District</a>
+
+<!-- blog posts -->
+  <a href="{% url 'post_list' %}">Blog</a>
+
+<!-- voting on bills -->
+  <a href="{% url 'polls_list' %}">Polls</a>
+
+<!-- Events and venues -->
+<a href="{% url 'event_list' %}">Events</a>
+
+<!-- campaigns -->
+<div class="dropdown">
+  <button class="dropbtn" onclick="myFunction(dropdown_id='Campaigns')">Campaigns
+    <i class="fa fa-caret-down"></i>
+  </button>
+  <div class="dropdown-content" id="Campaigns">
+    <a href="{% url 'campaign_contacts_list' %}">Contacts List</a>
+    {% if user.is_authenticated %}
+      <a href="{% url 'campaign_contacts' %}">Campaign Contacts</a>
+      <a href="{% url 'campaign_define' %}">Campaign Types</a>
+    {% endif %}
+  </div>
+</div> 
+
+<!-- user team members utilities -->
+<div class="dropdown">
+  <button class="dropbtn" onclick="myFunction(dropdown_id='Teams')">Teams
+    <i class="fa fa-caret-down"></i>
+  </button>
+  <div class="dropdown-content" id="Teams">
+    <a href="{% url 'team_list_members' %}">List team members</a>
+    {% if user.is_authenticated %}
+      <a href="{% url 'team_add_members' %}">Add members to team</a>
+      <a href="{% url 'team_define_roles' %}">Define roles</a>
+    {% endif %}
+  </div>
+</div> 
+
+<!-- user account utilities -->
+<div class="dropdown">
+  <button class="dropbtn" onclick="myFunction(dropdown_id='Users')">Members
+    <i class="fa fa-caret-down"></i>
+  </button>
+  <div class="dropdown-content" id="Users">
+    <a href="{% url 'users_login' %}">Login</a>
+    {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}">Logout</a>
+      <a href="{% url 'users_edit' %}">Edit Account</a>
+      <a href="{% url 'admin:password_change' %}">Change Password</a>
+    {% endif %}
+    <a href="{% url 'users_register' %}">Register New User</a>
+  </div>
+</div> 
+
+{% if request.user.is_staff %}
+    <a href="{% url 'admin:index' %}">Admin</a>
+  {% endif %}
+
+<!-- money mutual creadit -->
+  {% if request.user.username == 'cat' %}
+<!--
+  <div class="dropdown">
+    <button class="dropbtn" onclick="myFunction(dropdown_id='Money')">Money
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content" id="Money">
+      <a href="#">Credit</a>
+      <a href="#">Capital</a>
+      <a href="#">Invoicing</a>
+      <a href="#">Transactions</a>
+      <a href="#">Credit analysis</a>
+    </div>
+  </div> 
+-->
+  {% endif %}
+
+</div>
+
+
+<script>
+
+  /* toggle between hiding and showing the dropdown content */
+  window.last_dropdown = ''
+  window.current_dropdown = ''
+
+function myFunction(dropdown_id) {
+  window.current_dropdown = dropdown_id
+  document.getElementById(dropdown_id).classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if ( window.last_dropdown != window.current_dropdown | (! e.target.matches('.dropbtn')) ) {
+    var myDropdown = document.getElementById(window.last_dropdown);
+    window.last_dropdown = window.current_dropdown
+    if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+    }
+  }
+}
+
+</script>

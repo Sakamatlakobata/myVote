@@ -1,0 +1,30 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Update {{ venue.name }}{% endblock title %}
+
+{% block content %}
+
+    {% if user.is_authenticated and venue.contact.id == user.id %}
+        <h1>Update {{ venue.name }}</h1>
+        <div class="form-group">
+            <form action="{% url 'venue_update' venue.pk %}" method="POST">
+                {% csrf_token %}
+                <table>{{ form.as_table }}</table><br>
+                <input type="button" value="Back" onclick="history.back()">&nbsp
+                <input type="submit" value="Save">
+            </form>
+        </div>
+    {% else %}
+        <h1>Display {{ venue.name }}</h1>
+        <div class="form-group">
+            <form action="{% url 'venue_update' venue.pk %}" method="GET">
+                {% csrf_token %}
+                <fieldset disabled="disabled">
+                    <table>{{ form.as_table }}</table><br>
+                </fieldset>
+            </form>
+            <input type="button" value="Back" onclick="history.back()">&nbsp
+        </div>
+    {% endif %}
+
+{% endblock content %}

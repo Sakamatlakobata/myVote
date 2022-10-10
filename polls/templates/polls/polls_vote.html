@@ -1,0 +1,63 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Polls Vote : {{ bill.type }}{{ bill.number }} - {{ bill.text }}{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Polls Vote : {{ bill.number }} - {{ bill.text | slice:"0:50"}}
+    </div>
+{% endblock %}
+
+{% block error_message %}{{ error_message }}{% endblock error_message %}
+
+{% block content %}
+<div class="container">
+{% if user.is_authenticated %}
+
+{% if bill %}
+<form action="{% url 'polls_vote' bill.id %}" method="POST">
+{% csrf_token %}
+<fieldset>
+    {% for key, value in VOTE_TYPES %}
+        {% if vote == key %}
+            <input type="radio" name="vote" id="vote{{ forloop.counter }}" value="{{ key }}" checked>
+        {% else %}
+            <input type="radio" name="vote" id="vote{{ forloop.counter }}" value="{{ key }}">
+        {% endif %}
+        <label for="vote{{ forloop.counter }}">{{ value }}</label><br>
+    {% endfor %}
+</fieldset><br>
+<input type="button" value="Back" onClick=window.location.href="{% url 'polls_list' %}">
+<!-- <a href="{% url 'polls_list' %}" class="btn btn-secondary">Back</a> -->
+<input type="submit" value="Vote" class="btn btn-secondary">
+</form>
+
+{% else %}
+    No bills available
+    <br><br><input type="button" value="Back" onClick=window.location.href="{% url 'polls_list' %}">
+    <!-- <br><br><a href="{% url 'polls_list' %}" class="btn btn-secondary">Back</a> -->
+{% endif %} <!-- bill.polls.all -->
+
+{% else %}  <!-- user.is_authenticated -->
+    Please log in to vote
+    <br><br><input type="button" value="Back" onClick=window.location.href="{% url 'polls_list' %}">
+    <!-- <br><br><a href="{% url 'polls_list' %}" class="btn btn-secondary">Back</a> -->
+{% endif %} <!-- user.is_authenticated -->
+
+</div>
+{% endblock content %}
+
+<!--
+VOTE_TYPES {{ VOTE_TYPES }} <br>
+
+{% for value, text in VOTE_TYPES %}
+    {{ value }}: {{ text }} <br>
+{% endfor %}
+
+    {% for vote in bill.polls.all %}
+        <input type="radio" name="vote" id="vote{{ forloop.counter }}" value="{{ vote.id }}">
+        <label for="vote{{ forloop.counter }}">{{ vote.vote }}</label><br>
+    {% endfor %}
+-->
+
+<!-- <legend><h2>{{ bill.text }}</h2></legend> -->

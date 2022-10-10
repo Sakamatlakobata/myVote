@@ -1,0 +1,61 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Polls List{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Polls List
+    </div>
+{% endblock %}
+
+{% block content %}
+
+<form method="POST" action="{% url 'polls_list' %}">
+{% csrf_token %}
+    <input type="button" value="Back" onclick="history.back()">&nbsp
+    {% if user.is_authenticated %}
+        <input type="submit" value="Delete Bills">&nbsp
+        <input type="button" value="Add Bills"        onclick=window.location.href="{% url 'polls_new_bills' %}">&nbsp
+        <input type="button" value="My Voting Record" onClick=window.location.href="{% url 'polls_record' %}"><br><br>
+    {% endif %}
+
+    {% if bills_list %}
+        <table>
+            <thead><tr>
+                <th>Del</th>
+                <th><a href="{% url 'polls_list' %}?column=bill_id">Bill</a></th>
+                <th><a href="{% url 'polls_list' %}?column=date_introduced">Introduced</a></th>
+                <th><a href="{% url 'polls_list' %}?column=text">Text</a></th>
+                <th>&nbsp</th>
+                <th>&nbsp</th>
+                <th>&nbsp</th>
+            </tr></thead>
+            <tbody>
+            {% for bill in bills_list %}
+            <tr>
+                {% if user.is_authenticated %}
+                    <td><input type="checkbox" name="delete" value="{{bill.bill_id}}"></td>
+                {% endif %}
+                <td><a href="{{bill.url}}" target="_blank">{{bill.number}}</a></td>
+                <td>{{bill.date_introduced}}</td>
+                <td>{{bill.text|slice:":32"}}</td>
+                {% if user.is_authenticated %}
+                    <td><small><a href="{% url 'polls_vote' bill.id %}">Cast vote <i class="bi bi-box-seam"></i></a></small></td>
+                {% endif %}
+                <td><small><a href="{% url 'polls_result' bill.id %}">Vote count <i class="bi bi-calculator-fill"></i></a></small></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        No bills available
+    {% endif %} 
+
+</form>
+{% endblock content %}
+
+<!-- <input type="button" value="Add Bill" onclick="location.href='https://www.congress.gov/most-viewed-bills';">&nbsp -->
+
+<!-- <input type="button" value="Add Bill" onclick="window.open('https://www.congress.gov/most-viewed-bills', '_blank')">&nbsp -->
+
+<!-- <td><small><a href="{{ bill.url }}" target=”_blank”>Bill details <i class="bi bi-folder2-open"></i></a></small></td> -->

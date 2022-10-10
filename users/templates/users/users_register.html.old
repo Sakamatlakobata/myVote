@@ -1,0 +1,26 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Register New User{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Register New User
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="form-group">
+        <form method="POST" action="{% url 'users_register' %}">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table><br>
+            <input type="button" value="Back" onClick=window.location.href="{% url 'post_list' %}">
+            <input type="submit" value="Save">
+            <!-- <a href="{% url 'post_list' %}" class="btn btn-secondary">Back</a> -->
+            <!-- <button class="btn btn-secondary">Save</button> -->
+        </form>
+    </div>
+
+{% endblock content %}

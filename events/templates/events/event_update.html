@@ -1,0 +1,19 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Update {{ event.name }}{% endblock title %}
+
+{% block content %}
+
+    {% if user.is_authenticated and event.contact.id == user.id %}
+        <h1>Update {{ event.name }}</h1>
+        <div class="form-group">
+            <form action="{% url 'event_update' event.pk %}" method="POST">
+                {% csrf_token %}
+                <table>{{ form.as_table }}</table><br>
+                <input type="button" value="Back" onClick=window.location.href="{% url 'event_list' %}">
+                <input type="submit" value="Save">
+            </form>
+        </div>
+    {% endif %}
+
+{% endblock content %}

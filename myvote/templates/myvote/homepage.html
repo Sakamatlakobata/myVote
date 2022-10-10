@@ -1,0 +1,98 @@
+{% extends 'myvote/base_site.html' %}
+{% load static %}
+
+{% block head %}
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+{% endblock head %}
+
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Democratic Empire Home Page{% endblock title %}
+{% block page_heading %}Democratic Empire Home Page{% endblock page_heading %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+<!-- <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> -->
+
+<div class="container">
+    <h1>Introduction</h1>
+    <div class="textbox">
+    <!-- <div class="body" style="border-style:outset; background-color:lightblue;"> -->
+        <!-- <div style="margin:8px; opacity:0.5; color:black;"> -->
+        <div>
+            <b>This project contains the following components:
+            <ul>
+                <li><a href="{% url 'post_list' %}">Blog</a> - Posts about meetings and bills</li>
+                <li><a href="{% url 'polls_list' %}">Polls</a> - Voting on bills</li>
+                <li><a href="{% url 'event_list' %}">Events</a> - Arrangements for meetups</li>
+                <li><a href="{% url 'district_zipcode' %}">District</a> - Returns your voting district and details about your representative</li>
+                <li><a href="{% url 'campaign_contacts_list' %}">Campaigns</a> - Assist campaigns in recording contact with voters</li>
+            </ul></b>
+            The simple User Interface is a mobile-first design   
+            <br><br>
+            Please <a href="{% url 'users_register' %}">create an account</a> (even with bogus info) and log on, since most of the functionality is not available if not logged on (Members => Register New User)
+        </div>
+    </div>
+
+    <a href="{% url 'post_list' %}"><h3>Blog</h3></a>
+    <div class="textbox">
+        <div>
+            <p>Blog posts can be created for bills and/or events, and can be classified under categories (which can be maintained)</p>
+            <p>We can add new blog posts with the button, or maintain existing ones by clicking on the post title</p>
+            <p>We can add / delete comments on each blog post, and like the post in the detail (drilldown) view</p>
+            <p>Columns can be sorted by clicking on the title</p>
+        </div>
+    </div>
+
+    <a href="{% url 'polls_list' %}"><h3>Polls</h3></a>
+    <div class="textbox">
+        <div>
+            <p>Here we can vote on bills introduced to congress</p>
+            <p>We can cast votes on each bill, and see the vote count of everyone</p>
+            <p>To add more bill, please use the button. Likewise to delete bills from the list, as long as no votes have been cast</p>
+        </div>
+    </div>
+
+    <a href="{% url 'event_list' %}"><h3>Events</h3></a>
+    <div class="textbox">
+        <div>
+            <p>These are tools to arrange meetings in congressional districts and ridings</p>
+            <p>The event list shows date and time, as well as venue, and the meeting organiser. Venues can be added as required, and assigned to events</p>
+            <p>By drilling down on an event (click on the event title), we can add ourselves to the list of attendees. The Attending button lists the events we are attending, and the headings sort columns. Also note that past events are removed</p>
+        </div>
+    </div>
+
+    <a href="{% url 'district_zipcode' %}"><h3>Members</h3></a>
+    <div class="textbox">
+        <div>
+            <p>The Members dropdown on the menu provides for registration, logging in, and maintenance of our accounts</p>
+            <p>The Voting District finds our congressional district from the zipcode, and displays links to monitoring our representative</p>
+            <p>One can still view blogs, polls, and events even if not logged in, but cannot maintain them. Registration is under the Members dropdown on the menu</p>
+        </div>
+    </div>
+
+    <br><h1>Usage</h1>
+    <div class="textbox">
+        <div>
+            <p>This software is free to use</p>
+            <p>Please forward ideas on how we can make this more useful for you in your efforts to organise participation in our democracy</p>
+            <!-- <p>Developers contribute their time for free, but it would be appreciated if you could help with hosting costs please</p> -->
+            <p><i><b>Please note that this is not a production instance, so there might be some data loss</b></i></p>
+        </div>
+    </div>
+
+    <br><h1>Privacy</h1>
+    <div class="textbox">
+        <div>
+            <p>The developers of this project do not use your account data for any purpose</p>
+            <p>However this project is hosted in the cloud, so we cannot vouch for the cloud provider, or their staff</p>
+            <p>Please note that the email address and 'phone number entered on registration is visible to the planet, so perhaps it's best to start with dummy values (they can be changed at any time)</p>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}
+
+<!--
+<div class="body" style="border-style:outset; background-color:lightblue;">
+    <div style="margin:8px; opacity:0.5; color:black; max-width:500px">
+-->

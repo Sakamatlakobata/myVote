@@ -1,0 +1,41 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Display {{ event.name }}{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Display {{ event.name }}
+    </div>
+{% endblock %}
+
+{% block content %}
+<!-- <h1></h1> -->
+<form action="{% url 'event_detail' event.pk %}" method="POST">
+    {% csrf_token %}
+    <table>
+        <tr><td><b>Name :      </b></td><td>{{event.name}}</td></tr>
+        <tr><td><b>Contact :   </b></td><td><a href="{% url 'users_detail' event.contact.pk %}">{{event.contact.first_name}} {{event.contact.last_name}}</a></td></tr>
+        <tr><td><b>Venue :     </b></td><td><a href="{% url 'venue_update' event.venue.id %}"> {{event.venue.name}}</a></td></tr>
+        <tr><td><b>Date :      </b></td><td>{{event.date}}</td></tr>
+        <tr><td><b>Time :      </b></td><td>{{event.time}}</td></tr>
+        <tr><td><b>Attendees : </b></td><td>&nbsp</td></tr>
+        {% for attendee in event.attendees.all %}
+            <tr><td>{{attendee.first_name}} {{attendee.last_name}}</td><td>{{attendee.email}}</td></tr>
+        {% endfor %}
+    </table>
+    <br><input type="button" value="Back" onClick=window.location.href="{% url 'event_list' %}">
+    {% if attending %}
+        <input type="submit" value="Leave">
+    {% else %}
+        <input type="submit" value="Attend">
+    {% endif %}
+</form>
+{% endblock content %}
+
+<!--
+    {% if '{{attending}}' == 'True' %}
+        <input type="submit" value="Leave">
+    {% else %}
+        <input type="submit" value="Attend">
+    {% endif %}
+-->

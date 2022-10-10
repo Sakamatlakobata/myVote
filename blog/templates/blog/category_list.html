@@ -1,0 +1,36 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Categories{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Categories
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="form-group">
+        <form method="POST" action="{% url 'category_list' %}">
+            {% csrf_token %}
+            <input type="button" value="Back" onclick="history.back()">&nbsp
+            {% if user.is_authenticated %}
+                <input type="submit" value="Delete">&nbsp
+                <input type="button" value="Add" onClick=window.location.href="{% url 'category_create' %}">
+            {% endif %}
+            <table>
+                {% for category in category_list %}
+                    <tr>
+                        {% if user.is_authenticated %}
+                            <td><input type="checkbox" name="delete" value="{{category.id}}"></td>
+                        {% endif %}
+                        <td>&nbsp{{category.name}}</td>
+                    </tr>
+                {% endfor %}
+            </table><br>
+
+        </form>
+    </div>
+
+{% endblock content %}
+
+<!-- <input type="button" value="Back" onClick=window.location.href="{% url 'post_list' %}"> -->

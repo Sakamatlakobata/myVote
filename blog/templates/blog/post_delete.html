@@ -1,0 +1,30 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Post Delete{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'post_list' %}">&nbsp&nbspMenu</a> &rsaquo;
+        <a href="{% url 'category_list' %}">Categories</a> &rsaquo;
+        <a>Add</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <h1>Post Delete</h1><br>
+
+    {% if user.is_authenticated and post.author.id == user.id %}
+        <div class="form-group">
+            <form method="POST">
+                {% csrf_token %}
+                <h3>Are you sure you would like to delete <strong>{{ post.title }}</strong> ?</h3><br>
+                <input type="button" value="Back" onClick=window.location.href="{% url 'post_detail' post.pk %}">
+                <input type="submit" value="Delete">
+            </form>
+        </div>
+    {% else %}
+        <h2>Please login to delete post</h2>
+    {% endif %}
+
+{% endblock content %}

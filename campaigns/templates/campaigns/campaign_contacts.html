@@ -1,0 +1,65 @@
+{% extends 'myvote/base_site.html' %}
+{% load static %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Add Team Members{% endblock title %}
+{% block page_heading %}Add Team Members{% endblock page_heading %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
+<input type="button" value="Back" onclick="history.back()"><br><br>
+
+<form method="POST" action="{% url 'campaign_contacts' %}">
+    {% csrf_token %}
+    <table><tbody class="tbody_border">
+        <tr><td><b>ZIP Code</b></td><td>{{request.user.userextension.zipcode}}</td></tr>
+
+        <!-- select street name -->
+        <tr><td><b>Street</b></td>
+            <td>
+                {% if street %}
+                    {{street}}
+                {% else %}
+                    <select name="street" id="street" autofocus onchange="this.form.submit()">
+                        {% for street in streets %}
+                            <option value="{{street}}">{{street}}</option>
+                        {% endfor %}
+                    </select>
+                {% endif %}
+            </td>
+        </tr>
+
+        <!-- select street number -->
+        <tr>
+        {% if numbers %}
+            <td><b>Number</b></td>
+            <td>
+                <select name="number" id="number" autofocus onchange="this.form.submit()">
+                    {% for number in numbers %}
+                        <option value="{{number}}">{{number}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        {% elif number %}
+            <td><b>Number</b></td>
+            <td>{{number}}</td>
+        {% endif %}
+        </tr>
+
+        <!-- contact details -->
+        {% if number %}
+            <tr><td><b>Contact</b></td></tr>
+        {% endif %}
+
+    </tbody></table>
+</form>
+
+{% endblock content %}
+
+<!-- <input type="button" value="Back" onClick=window.location.href="{% url 'team_define_roles' %}"> -->
+
+<!--
+street  {{street}}<br>
+streets {{streets}}<br>
+number  {{number}}<br>
+numbers {{numbers}}<br><br> 
+-->

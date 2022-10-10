@@ -1,0 +1,42 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Create Comment{% endblock title %}
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Create Comment
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+    <div class="form-group">
+        <form method="POST" action="{% url 'comment_create' post_pk %}">
+            {% csrf_token %}
+            <table>
+                {{ form.media }}  <!-- for RichTextField editor in body field -->
+                {{ form.as_table }}
+            </table><br>
+            <input type="button" value="Back" onclick="history.back()">&nbsp
+            <input type="submit" value="Save">
+        </form>
+    </div>
+    {% else %}
+        <h2>Please login to create comment</h2>
+    {% endif %}
+
+{% endblock content %}
+
+<!--
+    <div class="breadcrumbs">
+        <a href="{% url 'post_list' %}">&nbsp&nbspMenu</a> &rsaquo;
+        <a href="{% url 'category_list' %}">Categories</a> &rsaquo;
+        <a>Add</a>
+    </div>
+-->
+
+<!--
+<input type="button" value="Back" onClick=window.location.href="{% url 'post_list' %}">
+<a href="{% url 'post_list' %}" class="btn btn-secondary">Back</a>
+<button class="btn btn-secondary">Save</button>
+-->

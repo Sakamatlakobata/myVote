@@ -1,0 +1,37 @@
+{% extends 'myvote/base_site.html' %}
+{% load static %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Define Campaigns{% endblock title %}
+{% block page_heading %}Define Campaigns{% endblock page_heading %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
+    <div class="form-group">
+        <form method="POST" action="{% url 'campaign_define' %}">
+            {% csrf_token %}
+            <input type="button" value="Back" onclick="history.back()">&nbsp
+            {% if user.is_authenticated %}
+                <input type="submit" value="Delete">&nbsp
+                <input type="button" value="Add" onClick=window.location.href="{% url 'campaign_create' %}">
+            {% endif %}
+            <table>
+                {% for campaign in campaign_list %}
+                        <tr>
+                        {% if user.is_authenticated and user == campaign.owner %}
+                            <td><input type="checkbox" name="delete" value="{{campaign.id}}"></td>
+                        {% else %}
+                            <td>&nbsp</td>
+                        {% endif %}
+                        <td>{{campaign.name}}</td>
+                        <td>{{campaign.owner}}</td>
+                    </tr>
+                {% endfor %}
+            </table><br>
+
+        </form>
+    </div>
+
+{% endblock content %}
+
+<!-- <input type="button" value="Back" onClick=window.location.href="{% url 'post_list' %}"> -->

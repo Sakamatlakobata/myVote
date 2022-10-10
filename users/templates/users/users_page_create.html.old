@@ -1,0 +1,30 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Create Profile Page{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Create Profile Page
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1>Create Profile Page</h1><br>
+
+    {% if user.is_authenticated %}
+    <div class="form-group">
+        <form method="POST" action="{% url 'users_page_create' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                {{ form.media }}  <!-- for RichTextField editor in body field -->
+                {{ form.as_table }}
+            </table><br>
+            <a href="{% url 'post_list' %}" class="btn btn-secondary">Back</a>
+            <button class="btn btn-secondary">Save</button>
+        </form>
+    </div>
+    {% else %}
+    <h2>Please login to create post</h2>
+    {% endif %}
+
+{% endblock content %}

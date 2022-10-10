@@ -1,0 +1,27 @@
+{% extends 'admin/base_site.html' %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Create Event{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
+        Create Event
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <div class="form-group">
+            <form action="{% url 'event_create' %}" method="POST">
+                {% csrf_token %}
+                <table>{{ form.as_table }}</table><br>
+                <input type="button" value="Back" onClick=window.location.href="{% url 'event_list' %}">
+                <input type="submit" value="Save">
+            </form>
+        </div>
+    {% else %}
+        <h3>Please login to create an event</h3>
+        <input type="button" value="Back" onClick=window.location.href="{% url 'event_list' %}">
+    {% endif %}
+
+{% endblock content %}
