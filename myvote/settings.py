@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'events',
     'district',
     'users',
+    'messaging',
     'ckeditor',
     'crispy_forms',
 ]
@@ -130,3 +131,12 @@ LOGIN_REDIRECT_URL  = '/home_page'
 LOGOUT_REDIRECT_URL = '/home_page'
 # LOGIN_REDIRECT_URL  = '/blog/list'
 # LOGOUT_REDIRECT_URL = '/blog/list'
+
+# settings for gmail
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # for testing
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "fouriewa@gmail.com"
+EMAIL_HOST_PASSWORD = "igclotkpqvapkcnt"

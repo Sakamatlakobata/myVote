@@ -20,6 +20,7 @@ urlpatterns = [
     path('users/',     include('django.contrib.auth.urls')),
     path('users/',     include('users.urls')),
     path('campaigns/', include('campaigns.urls')),
+    path('messaging/', include('messaging.urls')),
 
     # path('', PostList.as_view()),
     path('', TemplateView.as_view(template_name='myvote/homepage.html')),

@@ -1,4 +1,4 @@
-from django.db.models import CharField, Value
+# from django.db.models import CharField, Value
 from  django.shortcuts import render, redirect
 from  django.contrib import messages
 from  users.models import UserExtension
