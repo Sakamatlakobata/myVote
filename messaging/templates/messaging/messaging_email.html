@@ -1,2 +1,84 @@
-messages_email
+{% extends 'myvote/base_site.html' %}
+{% load static %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Email Campaign{% endblock title %}
+{% block page_heading %}Email Campaign{% endblock page_heading %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 
+<form method="POST" action="{% url 'messaging_email' %}">
+    {% csrf_token %}
+    <table>
+        <tbody class="tbody_border">
+
+        <!-- enter ZIP code -->
+        {% if not zipcode %}
+        <input type="button" value="Back" onclick="history.back()">&nbsp;
+        <input type="submit" value="Street"><br><br>    
+        <tr>
+            <td><label for  = "zipcode">ZIP code</label></td>
+            <td><input type = "text" name = "zipcode" autofocus required></td>
+            <!-- <td><input type = "text" name = "zipcode" autofocus required onBlur="this.form.submit()"></td> -->
+            <input type = "text" name = "street"  value="" hidden>
+            <input type = "text" name = "subject" value="" hidden>
+        </tr>
+        {% elif not street %}
+        <input type="button" value="Back" onclick="history.back()"><br><br>
+        <!-- <input type="submit" value="Save"><br><br>     -->
+        <tr><td><b>ZIP Code</b></td><td>{{zipcode}}</td></tr>
+
+        <!-- select street name -->
+        <tr><td><b>Street</b></td>
+            <td>
+                {% if street %}
+                    {{street}}
+                {% else %}
+                    <select name="street" id="street" autofocus onchange="this.form.submit()">
+                        {% for street in streets %}
+                            <option value="{{street}}">{{street}}</option>
+                        {% endfor %}
+                    </select>
+                {% endif %}
+            </td>
+        </tr>
+        <input type = "text" name = "zipcode" value="{{zipcode}}" hidden>
+        <input type = "text" name = "subject" value="" hidden>
+
+        {% else %}
+        <input type="button" value="Back" onclick="history.back()">&nbsp;
+        <input type="submit" value="Send"><br><br>    
+            <tr><td><b>ZIP Code</b></td><td>{{zipcode}}</td></tr>
+            <tr><td><b>Street</b></td><td style="text-transform:capitalize;">{{street}}</td></tr>
+            <tr>
+                <td><label for  = "subject"><b>Subject</b></label></td>
+                <td><input name = "subject" type = "text" autofocus required></td>    
+            </tr>
+            <tr>
+                <td><label for  = "from_name"><b>Sender Name</b></label></td>
+                <td><input name = "from_name" type = "text"></td>    
+            </tr>
+            <tr>
+                <td><label for  = "reply_to"><b>Reply to</b></label></td>
+                <td><input name = "reply_to" type = "email" ></td>    
+            </tr>
+            <tr>
+                <td><label    for  = "content"><b>Message content</b></label></td>
+                <td><textarea name = "content" rows = "4" cols = "50"></textarea></td>
+            </tr>
+            <input type = "text" name = "zipcode" value="{{zipcode}}" hidden>
+            <input type = "text" name = "street"  value="{{street}}"  hidden>
+        {% endif %}
+
+    </tbody></table>
+</form>
+
+{% endblock content %}
+
+<!-- <input type="button" value="Back" onClick=window.location.href="{% url 'team_define_roles' %}"> -->
+
+<!--
+street  {{street}}<br>
+streets {{streets}}<br>
+number  {{number}}<br>
+numbers {{numbers}}<br><br> 
+-->

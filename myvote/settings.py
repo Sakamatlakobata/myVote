@@ -132,11 +132,12 @@ LOGOUT_REDIRECT_URL = '/home_page'
 # LOGIN_REDIRECT_URL  = '/blog/list'
 # LOGOUT_REDIRECT_URL = '/blog/list'
 
-# settings for gmail
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # for testing
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = "fouriewa@gmail.com"
-EMAIL_HOST_PASSWORD = "igclotkpqvapkcnt"
+# settings for gmail (for use with - from django.core.mail import send_mail)
+# # EMAIL_BACKEND      = 'django.core.mail.backends.smtp.EmailBackend' 
+# EMAIL_BACKEND       = 'django.core.mail.backends.console.EmailBackend' # for testing
+# EMAIL_HOST          = "smtp.gmail.com"
+# EMAIL_USE_TLS       = True
+# EMAIL_USE_SSL       = False
+# EMAIL_PORT          = 587 # 465 
+# EMAIL_HOST_USER     = "fouriewa@gmail.com"
+# EMAIL_HOST_PASSWORD = "igclotkpqvapkcnt"
