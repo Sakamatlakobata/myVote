@@ -14,8 +14,8 @@
             {% if user.is_authenticated %}
                 <input type="submit" value="Delete">&nbsp
                 <input type="button" value="Add" onClick=window.location.href="{% url 'campaign_create' %}">
-            {% endif %}
-            <table>
+            {% endif %}<br><br>
+            <table><tbody class="textbox">
                 {% for campaign in campaign_list %}
                         <tr>
                         {% if user.is_authenticated and user == campaign.owner %}
@@ -27,7 +27,7 @@
                         <td>{{campaign.owner}}</td>
                     </tr>
                 {% endfor %}
-            </table><br>
+            </tbody></table><br>
 
         </form>
     </div>
