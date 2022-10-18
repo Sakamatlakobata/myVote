@@ -1,20 +1,17 @@
-{% extends 'admin/base_site.html' %}
+{% extends 'myvote/base_site.html' %}
+{% load static %}
 {% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
 {% block title %}Register New User{% endblock title %}
-
-{% block breadcrumbs %}
-    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
-        Register New User
-    </div>
-{% endblock %}
-
+{% block page_heading %}Register New User{% endblock page_heading %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
 {% load crispy_forms_tags %}  
 
     <div class="container py-5">
         <form method="POST">
             {% csrf_token %}
-            <table>
+            <table><tbody class="textbox">
                 <tr>
                     <td><label for="username"><b>Username : </b></label></td>
                     <td><input type="text" id="username" name="username" value={{user.username}}></td>
@@ -47,7 +44,7 @@
                     <td><label for="zipcode"><b>Confirm : </b></label></td>
                     <td><input type="password" id="password2" name="password2" value={{user.password2}}></td>
                 </tr>
-            </table><br>
+            </tbody></table><br>
             <input type="submit" value="Register">
         </form>
         <p class="text-center">If you already have an account, <a href="users_login">login</a> instead.</p>
