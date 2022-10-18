@@ -1,14 +1,10 @@
-{% extends 'admin/base_site.html' %}
+{% extends 'myvote/base_site.html' %}
+{% load static %}
 {% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
 {% block title %}Polls List{% endblock title %}
-
-{% block breadcrumbs %}
-    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
-        Polls List
-    </div>
-{% endblock %}
-
+{% block page_heading %}Polls List{% endblock page_heading %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 
 <form method="POST" action="{% url 'polls_list' %}">
 {% csrf_token %}
@@ -21,16 +17,16 @@
 
     {% if bills_list %}
         <table>
-            <thead><tr>
+            <thead class="thead_border"><tr>
                 <th>Del</th>
                 <th><a href="{% url 'polls_list' %}?column=bill_id">Bill</a></th>
                 <th><a href="{% url 'polls_list' %}?column=date_introduced">Introduced</a></th>
                 <th><a href="{% url 'polls_list' %}?column=text">Text</a></th>
-                <th>&nbsp</th>
-                <th>&nbsp</th>
-                <th>&nbsp</th>
+                <th>Cast</th>
+                <th>Count</th>
+                <!-- <th>&nbsp</th> -->
             </tr></thead>
-            <tbody>
+            <tbody class="thead_border">
             {% for bill in bills_list %}
             <tr>
                 {% if user.is_authenticated %}
@@ -52,6 +48,16 @@
     {% endif %} 
 
 </form>
+
+<br><br>
+<div class="textbox">
+    <p>Here we invite folks to vote on bills before congress<br>
+       We can only vote once on each bill, but we can change our vote</p>
+    <p><b>[Delete Bills]</b> removes the checked bill, as long as there are no votes cast</p>
+    <p><b>[Add Bills]</b> permits us to add individual bills from a list of latest bills</p>
+    <p><b>[My Voting Record]</b> lists the bills we have voted on</p>
+</div>
+
 {% endblock content %}
 
 <!-- <input type="button" value="Add Bill" onclick="location.href='https://www.congress.gov/most-viewed-bills';">&nbsp -->

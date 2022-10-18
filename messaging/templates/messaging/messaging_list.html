@@ -1,4 +1,60 @@
-messages_list<br><br>
+{% extends 'myvote/base_site.html' %}
+{% load static %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Messaging List{% endblock title %}
+{% block page_heading %}Messaging List{% endblock page_heading %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 
-<input type="button" value="Open1" onClick="window.open('about:blank', 'popWin', 'location=no');">
-<input type="button" value="Open2" onClick="window.open('http://147.182.207.247:8088/', 'popWin', 'location=no');">
+<form method="POST" action="{% url 'messaging_list' %}">
+    {% csrf_token %}
+
+    <input type="button" value="Back" onclick="history.back()">&nbsp
+    {% if user.is_authenticated %}
+        <input type="button" value="Add" onClick=window.location.href="{% url 'messaging_email' %}">&nbsp
+        <input type="submit" name="submit_button" value="Delete">
+    {% endif %}
+    <br><br>
+
+    <table>
+        <thead class="thead_border">
+            <th><a href="{% url 'messaging_list' %}?column=delete">  Del</a></th>
+            <th><a href="{% url 'messaging_list' %}?column=district">District</a></th>
+            <th><a href="{% url 'messaging_list' %}?column=zipcode"> ZIPcode</a></th>
+            <th><a href="{% url 'messaging_list' %}?column=street">  Street</a></th>
+            <th><a href="{% url 'messaging_list' %}?column=date">    Date</a></th>
+            <th><a href="{% url 'messaging_list' %}?column=subject"> Subject</a></th>
+        </thead>
+        <tbody class="tbody_border">
+            {% for message in messaging %}
+            <tr>
+                {% if request.user == message.owner %}
+                    <td><input type="checkbox" name="delete" value="{{message.id}}"></td>
+                {% else %}
+                    <td>&nbsp</td>
+                {% endif %}
+                <td>{{message.district}}</td>
+                <td>{{message.zipcode}}</td>
+                <td style="text-transform:capitalize;">{{message.street}}</td>
+                <td>{{message.date}}</td>
+                <td>{{message.subject}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</form>
+
+<br><br>
+<div class="textbox">
+    <p>This is a list of emailouts sent</p>
+    <p><b>[Add]</b> lets you send another emailout</p>
+    <p><b>[Delete]</b> deletes checked off rows (you can only delete your own emailouts)</p>
+    <p>To <b>sort columns</b> click on the column headings<br>
+        Sorting on DEL lists only your own emailouts<br>
+        Sorting on DISTRICT or ZIPCODE reduces the list to your own region</p>
+</div>
+
+{% endblock content %}
+
+<!-- <input type="button" value="Back" onClick=window.location.href="{% url 'team_define_roles' %}"> -->
+

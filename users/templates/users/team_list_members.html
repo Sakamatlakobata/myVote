@@ -7,23 +7,25 @@
 <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 
 <div class="form-group">
-    <form method="POST" action="{% url 'team_add_members' %}">
+    <form method="POST" action="{% url 'team_list_members' %}">
         {% csrf_token %}
         <table>
 
         <!-- buttons -->
         <input type="button" value="Back" onclick="history.back()">&nbsp
-        <input type="button" value="Add" onClick=window.location.href="{% url 'team_add_members' %}">&nbsp
+        <input type="button" value="Add"  onClick=window.location.href="{% url 'team_add_members' %}">&nbsp
+        <input type="submit" value="Delete" name="submit_button">
         <br><br>
 
         <!-- list of venues -->
         <thead class="thead_border">
         <tr>
+            <th><a href="{% url 'team_list_members' %}?column=delete">Del</a></th>
             <th><a href="{% url 'team_list_members' %}?column=first_name">First Name</a></th>
             <th><a href="{% url 'team_list_members' %}?column=last_name">Last Name</a></th>
             {% if request.user.is_authenticated %}
                 <th><a href="{% url 'team_list_members' %}?column=district">District</a></th>
-                <th><a href="{% url 'team_list_members' %}?column=zipcode">ZIPcode</a></th>
+                <th><a href="{% url 'team_list_members' %}?column=zipcode"></a>ZIPcode</a></th>
                 <th><a href="{% url 'team_list_members' %}?column=role">Role</a></th>
                 <th>Phone</th>
                 <th>Email</th>
@@ -37,6 +39,11 @@
         <tbody class="tbody_border">
         {% for user in users %}
             <tr>
+                {% if request.user == user.userextension.role.owner %}
+                    <td><input type="checkbox" name="delete" value="{{user.id}}"></td>
+                {% else %}
+                    <td>&nbsp</td>
+                {% endif %}
                 <td>{{ user.first_name }}</td>
                 <td>{{ user.last_name }}</td>
                 <td>{{ user.userextension.district }}</td>
@@ -51,6 +58,16 @@
         </tbody>
         </table>
     </form>
+</div>
+
+<br><br>
+<div class="textbox">
+    <p>This is a list team members and their roles</p>
+    <p><b>[Add]</b> include another team member from list of users</p>
+    <p><b>[Delete]</b> deletes checked off rows (you can only delete your own team members (users belonging to one of your roles))</p>
+    <p>To <b>sort columns</b> click on the column headings<br>
+        Sorting on DEL lists only your own teams<br>
+        Sorting on DISTRICT or ZIPCODE reduces the list to your own region</p>
 </div>
 
 {% endblock content %}

@@ -14,7 +14,8 @@
         <!-- enter ZIP code -->
         {% if not zipcode %}
         <input type="button" value="Back" onclick="history.back()">&nbsp;
-        <input type="submit" value="Street"><br><br>    
+        <input type="submit" name="submit_button" value="One Street">&nbsp;
+        <input type="submit" name="submit_button" value="All Streets"><br><br>
         <tr>
             <td><label for  = "zipcode">ZIP code</label></td>
             <td><input type = "text" name = "zipcode" autofocus required></td>
@@ -42,7 +43,7 @@
             </td>
         </tr>
         <input type = "text" name = "zipcode" value="{{zipcode}}" hidden>
-        <input type = "text" name = "subject" value="" hidden>
+        <input type = "text" name = "subject" value=""            hidden>
 
         {% else %}
         <input type="button" value="Back" onclick="history.back()">&nbsp;
@@ -58,18 +59,25 @@
                 <td><input name = "from_name" type = "text"></td>    
             </tr>
             <tr>
-                <td><label for  = "reply_to"><b>Reply to</b></label></td>
-                <td><input name = "reply_to" type = "email" ></td>    
-            </tr>
-            <tr>
                 <td><label    for  = "content"><b>Message content</b></label></td>
                 <td><textarea name = "content" rows = "4" cols = "50"></textarea></td>
             </tr>
-            <input type = "text" name = "zipcode" value="{{zipcode}}" hidden>
-            <input type = "text" name = "street"  value="{{street}}"  hidden>
+            <input type = "text" name = "zipcode"       value="{{zipcode}}" hidden>
+            <input type = "text" name = "street"        value="{{street}}"  hidden>
+            <input type = "text" name = "submit_button" value=""            hidden>
+
         {% endif %}
 
     </tbody></table>
+
+    <br><br>
+    <div class="textbox">
+        <p>Mailouts are done per zipcode<br>
+        The email addresses are sourced from your Contact list under Campaigns tab</p>
+        <p><b>[One Street]</b> lets you select a single street in the zipcode to target</p>
+        <p><b>[All Streets]</b> sends email to all contacts in the zipcode</p>
+    </div>
+
 </form>
 
 {% endblock content %}

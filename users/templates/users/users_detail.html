@@ -1,17 +1,15 @@
-{% extends 'admin/base_site.html' %}
+{% extends 'myvote/base_site.html' %}
+{% load static %}
 {% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
 {% block title %}Edit Profile{% endblock title %}
-
-{% block breadcrumbs %}
-    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
-        Edit Profile
-    </div>
-{% endblock %}
-
+{% block page_heading %}Edit Profile{% endblock page_heading %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
 <form>
     {% csrf_token %}
     <table>
+        <tbody class="thead_border">
         <tr>
             <td><output><b>Username : </b></output></td>
             <td><output>{{user.username}}</output></td>
@@ -48,6 +46,7 @@
             <td><output><b>Date Joined : </b></output></td>
             <td><output>{{user.date_joined}}</output></td>
         </tr>
+        </tbody>
     </table><br>
     <input type=button value="Back" onClick="javascript:history.go(-1);">
 </form>

@@ -11,12 +11,14 @@
 
     <input type="button" value="Back" onclick="history.back()">&nbsp
     {% if user.is_authenticated %}
-        <input type="button" value="Add" onClick=window.location.href="{% url 'campaign_contacts' %}">
+        <input type="button" value="Add" onClick=window.location.href="{% url 'campaign_contacts' %}">&nbsp
+        <input type="submit" name="submit_button_delete" value="Delete">
     {% endif %}
     <br><br>
 
     <table>
         <thead class="thead_border">
+            <th><a href="{% url 'campaign_contacts_list' %}?column=delete">  Del</a></th>
             <th><a href="{% url 'campaign_contacts_list' %}?column=district">District</a></th>
             <th><a href="{% url 'campaign_contacts_list' %}?column=zipcode"> ZIPcode</a></th>
             <th><a href="{% url 'campaign_contacts_list' %}?column=street">  Street</a></th>
@@ -30,6 +32,11 @@
         <tbody class="tbody_border">
             {% for contact in contacts %}
             <tr>
+                {% if request.user == contact.owner %}
+                    <td><input type="checkbox" name="delete" value="{{contact.id}}"></td>
+                {% else %}
+                    <td>&nbsp</td>
+                {% endif %}
                 <td>{{contact.district}}</td>
                 <td>{{contact.zipcode}}</td>
                 <td style="text-transform:capitalize;">{{contact.street}}</td>
@@ -44,6 +51,16 @@
         </tbody>
     </table>
 </form>
+
+<br><br>
+<div class="textbox">
+    <p>This is a record of contacts with voters</p>
+    <p><b>[Add]</b> lets you send another contact by address</p>
+    <p><b>[Delete]</b> deletes checked off rows (you can only delete your own)</p>
+    <p>To <b>sort columns</b> click on the column headings<br>
+        Sorting on DEL lists only your own<br>
+        Sorting on DISTRICT or ZIPCODE reduces the list to your own region</p>
+</div>
 
 {% endblock content %}
 

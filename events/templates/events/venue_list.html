@@ -1,13 +1,10 @@
-{% extends 'admin/base_site.html' %}
+{% extends 'myvote/base_site.html' %}
+{% load static %}
 {% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
 {% block title %}Venue List{% endblock title %}
-{% block breadcrumbs %}
-    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
-        Venue List
-    </div>
-{% endblock %}
-
+{% block page_heading %}Venue List{% endblock page_heading %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 
 <div class="form-group">
     <form method="POST" action="{% url 'venue_list' %}">
@@ -22,16 +19,16 @@
         {% endif %}
 
         <!-- list of venues -->
-        <thead>
+        <thead class="thead_border">
         <tr>
-            <th>Delete</th>
+            <th>Del</th>
             <th><a href="{% url 'venue_list' %}?column=name">Venue</a></th>
             <th><a href="{% url 'venue_list' %}?column=contact">Contact</a></th>
             <th><a href="{% url 'venue_list' %}?column=zipcode">ZIPcode</a></th>
             <th><a href="{% url 'venue_list' %}?column=district">District</a></th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="thead_border">
         {% for venue in venue_list %}
             <tr>
                 {% if user.is_authenticated and venue.contact.id == user.id %}

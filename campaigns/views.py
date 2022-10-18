@@ -8,8 +8,19 @@ import requests
 
 
 def CampaignContactsList(request):
+    # print(' *** request.GET  ', request.GET )
+    # print(' *** request.POST ', request.POST )
     column = request.GET.get("column")
-    if column: # clicked on column heading to sort
+    if request.method == 'POST':
+        for deleted in request.POST.getlist('delete'):
+            contact = Contact.objects.get(id=deleted)
+            if contact.owner == request.user:
+                # print(' *** deleted ', contact )
+                contact.delete()
+        messages.info(request, "Contact deleted")
+        contacts = Contact.objects.all()
+
+    elif column: # clicked on column heading to sort
         ''' flip sort order '''
         if request.session.get('sort_order', '-'):
             request.session['sort_order'] = ''
@@ -24,6 +35,8 @@ def CampaignContactsList(request):
             contacts = Contact.objects.filter(district = request.user.userextension.district)
         elif column == 'zipcode':
             contacts = Contact.objects.filter(zipcode = request.user.userextension.zipcode)
+        elif column == 'delete':
+            contacts = Contact.objects.filter(owner = request.user)
         else:
             contacts = Contact.objects.all().order_by(order+column)
     else: # no column header selected to sort
@@ -103,9 +116,16 @@ def CampaignContacts(request):
             # print(' **** number ', number)
             # print(' **** street ', street)
             # print(' **** zipcode ', zipcode)
-            # print(' **** contacts ', contacts)            
-            context = {'zipcode':zipcode, 'street':street, 'number':number, 'contacts':contacts, }
-            return render(request, "campaigns/campaign_contacts_address.html", context)
+            # print(' **** contacts ', contacts)        
+
+            ### if not previous contact, do directly to contact form ([Add] button)
+            if not contacts: 
+                campaigns = Campaign.objects.all()
+                context   = {'zipcode':zipcode, 'street':street, 'number':number, 'campaigns':campaigns, }
+                return render(request, "campaigns/campaign_contacts_create.html", context)
+            else:
+                context = {'zipcode':zipcode, 'street':street, 'number':number, 'contacts':contacts, }
+                return render(request, "campaigns/campaign_contacts_address.html", context)
         else:
             ''' download list of street numbers for street selected '''
             street  = request.POST['street']

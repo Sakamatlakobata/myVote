@@ -1,11 +1,11 @@
 {% extends 'myvote/base_site.html' %}
 {% load static %}
-
 {% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
-{% block title %}Define Roles{% endblock title %}
-{% block page_heading %}Define Roles{% endblock page_heading %}
-
+{% block title %}Define Team Roles{% endblock title %}
+{% block page_heading %}Define Team Roles{% endblock page_heading %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
     <div class="form-group">
         <form method="POST" action="{% url 'team_define_roles' %}">
             {% csrf_token %}
@@ -14,8 +14,15 @@
                 <input type="submit" value="Delete">&nbsp
                 <input type="button" value="Add" onClick=window.location.href="{% url 'team_create_role' %}">
             {% endif %}
+            <br><br>
             <table>
-                {% for role in role_list %}
+                <thead class="tbody_border">
+                    <th>Del</th>
+                    <th>Role</th>
+                    <th>Owner</th>
+                </thead>
+                <tbody class="tbody_border">
+                    {% for role in role_list %}
                         <tr>
                         {% if user.is_authenticated and user == role.owner %}
                             <td><input type="checkbox" name="delete" value="{{role.id}}"></td>
@@ -26,11 +33,20 @@
                         <td>{{role.owner}}</td>
                     </tr>
                 {% endfor %}
+                </tbody>
             </table><br>
 
         </form>
     </div>
 
+    <br>
+    <div class="textbox">
+        <p>Manage roles for team members<br>
+           Assigning a role to a user makes the user part of a team</p>
+        <p><b>[Add]</b> lets you create another role</p>
+        <p><b>[Delete]</b> deletes checked off rows (you can only delete your own roles)</p>
+    </div>
+    
 {% endblock content %}
 
 <!-- <input type="button" value="Back" onClick=window.location.href="{% url 'post_list' %}"> -->

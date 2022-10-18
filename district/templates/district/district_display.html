@@ -1,38 +1,19 @@
-<!--
-Search for a bill
-https://www.congress.gov/search?q={"source":"legislation","search":"H.R. 600"}
-https://www.congress.gov/search?q={"search":"H.R. 600"}
-
-List of bills links
-yyyy-MM-dd'T'HH:mm:ss'Z'
-https://api.govinfo.gov/collections/BILLS/2022-04-02T00:00:00Z/2022-04-02T23:59:59Z/?offset=0&pageSize=100&api_key=ToR9oqHKnmbxStu8LLGoaNrfIaVBOyLpfKJCX1ba
-"packageLink":"https://api.govinfo.gov/packages/BILLS-117hr7284ih/summary"
-
-Bill title and detail link
-https://api.govinfo.gov/packages/BILLS-117hr7284ih/summary?api_key=ToR9oqHKnmbxStu8LLGoaNrfIaVBOyLpfKJCX1ba
-"detailsLink":"https://www.govinfo.gov/app/details/BILLS-117hr7284ih"
--->
-
-{% extends "admin/base_site.html" %}
-
-{% block title %}Electoral District{% endblock %}
-{% block branding %}{% include 'myvote/navbar.html' %}{% endblock %}
-
-{% block breadcrumbs %} <!-- see base/app_index.html -->
-    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
-        Electoral District
-    </div>
-{% endblock %}
-
+{% extends 'myvote/base_site.html' %}
+{% load static %}
+{% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
+{% block title %}Electoral District{% endblock title %}
+{% block page_heading %}Electoral District{% endblock page_heading %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 
     <!-- <h1 id="description" onmouseover="mouseOver()" onmouseout="mouseOut()">Electoral district</h1> -->
     <input type="button" value="Back"   onclick="history.back()">&nbsp
     <input type="button" value="Blog"   onClick=window.location.href="{% url 'post_list'  %}">&nbsp
     <input type="button" value="Polls"  onClick=window.location.href="{% url 'polls_list' %}">&nbsp
-    <input type="button" value="Events" onClick=window.location.href="{% url 'event_list' %}">
+    <input type="button" value="Events" onClick=window.location.href="{% url 'event_list' %}"><br><br>
     
     <table>
+        <tbody class="textbox">
         <tr><td> First name:      </td>
             <td> {{ first_name }} </td></tr>
         <tr><td> Last name:       </td>
@@ -60,9 +41,19 @@ https://api.govinfo.gov/packages/BILLS-117hr7284ih/summary?api_key=ToR9oqHKnmbxS
             <!-- <td> <a href=https://voteview.com/ target="_blank"> Vote View </a> </td></tr> -->
         <tr><td> ZIPcode:</td>
             <td> <a href="https://www.unitedstateszipcodes.org/{{ ZIPcode }}" target="_blank"> {{ ZIPcode }} </a> </td> </tr>
+        <tr><td>Government Spending:</td>
+            <td> <a href="https://www.openthebooks.com/" target="_blank"> Open The Books </a> </td> </tr>
+        </tr>
+    </tbody>
     </table><br>
 
     <!-- <script>function mouseOver(){window.alert("{{ description }}");}</script> -->
+
+<br>
+<div class="textbox">
+    <p>These links help us hold our representatives to account<br>
+       Who in turn hold the government to account</p>
+</div>
 
 {% endblock %}
 
@@ -82,3 +73,20 @@ https://api.govinfo.gov/packages/BILLS-117hr7284ih/summary?api_key=ToR9oqHKnmbxS
             <td> {{ thomas_id }} </td>
             <td> Thomas (Library of Congress) </td>
         </tr> -->
+
+
+<!--
+Search for a bill
+https://www.congress.gov/search?q={"source":"legislation","search":"H.R. 600"}
+https://www.congress.gov/search?q={"search":"H.R. 600"}
+
+List of bills links
+yyyy-MM-dd'T'HH:mm:ss'Z'
+https://api.govinfo.gov/collections/BILLS/2022-04-02T00:00:00Z/2022-04-02T23:59:59Z/?offset=0&pageSize=100&api_key=ToR9oqHKnmbxStu8LLGoaNrfIaVBOyLpfKJCX1ba
+"packageLink":"https://api.govinfo.gov/packages/BILLS-117hr7284ih/summary"
+
+Bill title and detail link
+https://api.govinfo.gov/packages/BILLS-117hr7284ih/summary?api_key=ToR9oqHKnmbxStu8LLGoaNrfIaVBOyLpfKJCX1ba
+"detailsLink":"https://www.govinfo.gov/app/details/BILLS-117hr7284ih"
+-->
+

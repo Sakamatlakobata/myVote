@@ -1,14 +1,11 @@
-{% extends 'admin/base_site.html' %}
+{% extends 'myvote/base_site.html' %}
+{% load static %}
 {% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
 {% block title %}Add Bills{% endblock title %}
-
-{% block breadcrumbs %}
-    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
-        Add Bills
-    </div>
-{% endblock %}
-
+{% block page_heading %}Add Bills{% endblock page_heading %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
 {% if new_bills_list %}
 <form method="POST" action="{% url 'polls_new_bills' %}">
     {% csrf_token %}
@@ -16,7 +13,9 @@
     {% if user.is_authenticated %}
         <input type="submit" value="Add">
     {% endif %}
+    <br><br>
     <table>
+        <tbody class="thead_border">
         {% for bill in new_bills_list %}
         <tr>
             {% if user.is_authenticated %}
@@ -27,6 +26,7 @@
             <td><a href="{{bill.govtrack_url}}" target="_blank">{{bill.short_title|truncatechars:100}}</a></td>
         </tr>
         {% endfor %}
+        </tbody>
     </table>
 </form>
 {% else %}

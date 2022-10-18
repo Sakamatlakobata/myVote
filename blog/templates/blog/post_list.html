@@ -1,14 +1,10 @@
-{% extends 'admin/base_site.html' %}
+{% extends 'myvote/base_site.html' %}
+{% load static %}
 {% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
 {% block title %}Posts List{% endblock title %}
-
-{% block breadcrumbs %}
-    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
-        Posts List
-    </div>
-{% endblock %}
-
+{% block page_heading %}Posts List{% endblock page_heading %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 
 {% if user.is_authenticated %}
     <input type="button" value="Back"       onclick="history.back()">&nbsp
@@ -17,7 +13,8 @@
 {% endif %}
 </br></br>
 <table>
-    <thead><tr>
+    <thead class="thead_border">
+    <tr>
         <th><a href="{% url 'post_list' %}?column=title">Title</a></th>
         <th><a href="{% url 'post_list' %}?column=category">Category</a></th>
         <th><a href="{% url 'post_list' %}?column=bill">Bill</a></th>
@@ -26,7 +23,7 @@
         <th><a href="{% url 'post_list' %}?column=author">Author</a></th>
         <th><a href="{% url 'post_list' %}?column=excerpt">Excerpt</a></th>
     </tr></thead>
-    <tbody>
+    <tbody class="thead_border">
     {% for post in post_list %}
     <tr>
         <td><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></td>

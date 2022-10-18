@@ -1,13 +1,10 @@
-{% extends 'admin/base_site.html' %}
+{% extends 'myvote/base_site.html' %}
+{% load static %}
 {% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
 {% block title %}Event List{% endblock title %}
-{% block breadcrumbs %}
-    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
-        Event List
-    </div>
-{% endblock %}
-
+{% block page_heading %}Event List{% endblock page_heading %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 
 <div class="form-group">
     <!-- <form method="POST" action="{% url 'event_list' %}"> -->
@@ -23,7 +20,7 @@
         {% endif %}
 
         <!-- list of venues -->
-        <thead>
+        <thead class="thead_border">
         <tr>
             <th><a href="{% url 'event_list' %}?column=name">Event</a></th>
             <th><a href="{% url 'event_list' %}?column=venue">Venue</a></th>
@@ -34,7 +31,7 @@
             <th><a href="{% url 'event_list' %}?column=contact">Contact</a></th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="thead_border">
         {% for event in event_list %}
             <tr>
                 {% if user.is_authenticated and event.contact.id == user.id %}

@@ -1,17 +1,15 @@
-{% extends 'admin/base_site.html' %}
+{% extends 'myvote/base_site.html' %}
+{% load static %}
 {% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
 {% block title %}Edit Profile{% endblock title %}
-
-{% block breadcrumbs %}
-    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
-        Edit Profile
-    </div>
-{% endblock %}
-
+{% block page_heading %}Edit Profile{% endblock page_heading %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
 <form method="POST">
     {% csrf_token %}
     <table>
+        <tbody class="tbody_border">
         <tr>
             <td><label for="username"><b>Username : </b></label></td>
             <td><input type="text" id="username" name="username" value={{user.username}}></td>
@@ -48,11 +46,14 @@
             <td><output><b>Date Joined : </b></output></td>
             <td><output>{{user.date_joined}}</output></td>
         </tr>
+        </tbody>
     </table><br>
-    <input type="button" value="Back" onClick=window.location.href="{% url 'event_list' %}">
+    <input type="button" value="Back" onclick="history.back()">&nbsp
     <input type="submit" value="Save">
 </form>
 {% endblock content %}
+
+<!-- <input type="button" value="Back" onClick=window.location.href="{% url 'event_list' %}"> -->
 
 <!--
 <div class="form-group">

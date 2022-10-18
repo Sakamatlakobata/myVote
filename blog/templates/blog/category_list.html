@@ -1,14 +1,11 @@
-{% extends 'admin/base_site.html' %}
+{% extends 'myvote/base_site.html' %}
+{% load static %}
 {% block branding %}{% include 'myvote/navbar.html' %}{% endblock branding %}
 {% block title %}Categories{% endblock title %}
-
-{% block breadcrumbs %}
-    <div class="breadcrumbs" style="color:lightyellow; font-size:16px; padding-left:50px">
-        Categories
-    </div>
-{% endblock %}
-
+{% block page_heading %}Categories{% endblock page_heading %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
     <div class="form-group">
         <form method="POST" action="{% url 'category_list' %}">
             {% csrf_token %}
@@ -17,14 +14,16 @@
                 <input type="submit" value="Delete">&nbsp
                 <input type="button" value="Add" onClick=window.location.href="{% url 'category_create' %}">
             {% endif %}
+            <br><br>
             <table>
+                <tbody class="tbody_border">
                 {% for category in category_list %}
-                    <tr>
-                        {% if user.is_authenticated %}
-                            <td><input type="checkbox" name="delete" value="{{category.id}}"></td>
-                        {% endif %}
-                        <td>&nbsp{{category.name}}</td>
-                    </tr>
+                <tr>
+                    {% if user.is_authenticated %}
+                        <td><input type="checkbox" name="delete" value="{{category.id}}"></td>
+                    {% endif %}
+                    <td>&nbsp{{category.name}}</td>
+                </tr>
                 {% endfor %}
             </table><br>
 

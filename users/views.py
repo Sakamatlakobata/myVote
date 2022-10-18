@@ -27,8 +27,8 @@ def TeamAddMembers(request):
                 userextension.role = Role.objects.get(name=role[1])
                 userextension.save()
             messages.info(request, "Members roles updated")
-        users = User.objects.all()
-        roles = Role.objects.all()
+        users = User.objects.all().exclude(userextension__role__name = "-")
+        return render(request, "users/team_list_members.html", {'users':users})
     else:
         column = request.GET.get("column")
         if (column):
@@ -56,6 +56,23 @@ def TeamAddMembers(request):
 
 def TeamListMembers(request):
     column = request.GET.get("column")
+    if request.method == 'POST':
+        # print(' *** request.POST ', request.POST)
+        no_role = Role.objects.get(name = '-')
+        # print(' *** no_role ', no_role )
+        for deleted in request.POST.getlist('delete'):
+            user = User.objects.get(id=deleted)
+            if user.userextension.role.owner == request.user:
+                # print(' *** deleted ', user.username )
+                userextension = UserExtension.objects.get(user = user)
+                userextension.role = no_role
+                userextension.save()
+                # print(' *** userextension ', userextension )
+                # user.delete()
+        messages.info(request, "Team member deleted")
+        users = User.objects.all().exclude(userextension__role__name = "-")
+
+    ### if column heading selected to sort on
     if (column):
         ''' flip sort order '''
         if request.session.get('sort_order', '-'):
@@ -69,6 +86,12 @@ def TeamListMembers(request):
             users = User.objects.filter(userextension__district = request.user.userextension.district).exclude(userextension__role__name = "-")
         elif (column == 'zipcode'):
             users = User.objects.filter(userextension__zipcode = request.user.userextension.zipcode).exclude(userextension__role__name = "-")
+        elif column == 'delete':
+            roles = UserExtension.objects.values_list('role__name', 'role__owner')
+            print(' *** roles ', roles)
+            print(' *** request.user ', request.user.id, request.user)
+            print(' *** userextension__role__owner ', request.user.userextension.role)
+            users = User.objects.filter(userextension__role__owner = request.user)
         elif (column == 'role'):
             users = User.objects.all().exclude(userextension__role__name = "-").order_by(order+'userextension__role__name')
         else:
@@ -99,7 +122,7 @@ def TeamCreateRole(request):
 
 
 def TeamDefineRoles(request):  # list with checkboxes
-    role_list = Role.objects.all()
+    role_list = Role.objects.all().exclude(name = "-")
     if request.method == "POST":
         for deleted in request.POST.getlist('delete'):
             role_delete = Role.objects.get(id=deleted)

@@ -31,7 +31,11 @@
         <tbody class="tbody_border">
             {% for contact in contacts %}
             <tr>
-                <td><input type="checkbox" name="delete" value="{{contact.id}}"></td>
+                {% if user == contact.owner %}
+                    <td><input type="checkbox" name="delete" value="{{contact.id}}"></td>
+                {% else %}
+                    <td>&nbsp</td>
+                {% endif %}
                 <td>{{contact.name}}</td>
                 <td>{{contact.cell}}</td>
                 <td>{{contact.email}}</td>
@@ -43,6 +47,13 @@
         <input type="hidden" name="back" value="{{ request.path }}">
     </table>
 </form>
+
+<br><br>
+<div class="textbox">
+    <p>This is a list of contacts made with this address</p>
+    <p><b>[Add]</b> lets you record another contact by filling out the contact form</p>
+    <p><b>[Delete]</b> deletes checked off rows (you can only delete your own)</p>
+</div>
 
 {% endblock content %}
 
