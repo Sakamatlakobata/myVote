@@ -99,11 +99,11 @@ def MessagingList(request):
 
 
 def MessagingEmail(request):
-    print(' *** request.GET  ', request.GET )
-    print(' *** request.POST ', request.POST )
+    # print(' *** request.GET  ', request.GET )
+    # print(' *** request.POST ', request.POST )
     if request.method == 'POST':
         form = request.POST
-        print(' *** form ', form)
+        # print(' *** form ', form)
 
         ### if 'All Streets' button pressed (ie. not selection of individual streets, but all streets in zipcode)
         if form['submit_button'] == 'All Streets':

@@ -88,9 +88,9 @@ def TeamListMembers(request):
             users = User.objects.filter(userextension__zipcode = request.user.userextension.zipcode).exclude(userextension__role__name = "-")
         elif column == 'delete':
             roles = UserExtension.objects.values_list('role__name', 'role__owner')
-            print(' *** roles ', roles)
-            print(' *** request.user ', request.user.id, request.user)
-            print(' *** userextension__role__owner ', request.user.userextension.role)
+            # print(' *** roles ', roles)
+            # print(' *** request.user ', request.user.id, request.user)
+            # print(' *** userextension__role__owner ', request.user.userextension.role)
             users = User.objects.filter(userextension__role__owner = request.user)
         elif (column == 'role'):
             users = User.objects.all().exclude(userextension__role__name = "-").order_by(order+'userextension__role__name')
